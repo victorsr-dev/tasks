@@ -13,7 +13,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    get_user (context, user) {
+    setUser (context, user) {
       context.commit('SET_USER', user)
     }
   },

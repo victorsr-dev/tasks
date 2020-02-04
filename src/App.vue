@@ -20,7 +20,7 @@
                       placeholder="e.g. bobsmith@gmail.com"
                       class="input"
                       required
-                      v-model="user.name"
+                      v-model="user.email"
                     />
                     <span class="icon is-small is-left">
                       <font-awesome-icon icon="envelope"/>
@@ -54,18 +54,29 @@
   </div>
 </template>
 <script>
+import LoginService from '@/services/login'
 export default {
   data () {
     return {
       user: {
-        name: '',
+        email: '',
         password: ''
       }
     }
   },
   methods: {
-    login () {
-      this.$store.dispatch('get_user', this.user)
+    async login () {
+      try {
+        const res = await LoginService.getUser(this.user)
+        if (res.data.success) {
+          this.$store.dispatch('setUser', res.data.user)
+          this.$swal('Bienvenido...!!')
+        } else {
+          this.$swal('Hola Mundo')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
