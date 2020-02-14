@@ -1,20 +1,32 @@
+/* Styles */
+import '@/scss/main.scss'
+import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
-import App from './App.vue'
+import Buefy from 'buefy'
 import router from './router'
 import store from './store'
-
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.all'
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import AsideMenuList from '@/components/AsideMenuList'
+
+import App from './App.vue'
+
+router.afterEach(() => {
+  store.commit('asideMobileStateToggle', false)
+})
+
+Vue.config.productionTip = false
+
+Vue.component('AsideMenuList', AsideMenuList)
+
+Vue.use(Buefy)
 
 library.add([faLock, faEnvelope])
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-Vue.config.productionTip = false
 
 Vue.use(VueSweetalert2)
 
