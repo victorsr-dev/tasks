@@ -14,10 +14,6 @@ import AsideMenuList from '@/components/AsideMenuList'
 
 import App from './App.vue'
 
-router.afterEach(() => {
-  store.commit('asideMobileStateToggle', false)
-})
-
 Vue.config.productionTip = false
 
 Vue.component('AsideMenuList', AsideMenuList)

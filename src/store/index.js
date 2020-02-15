@@ -42,8 +42,6 @@ export default new Vuex.Store({
 
     /* Aside Mobile */
     asideMobileStateToggle (state, payload = null) {
-      const htmlClassName = 'has-aside-mobile-expanded'
-
       let isShow
 
       if (payload !== null) {
@@ -53,12 +51,9 @@ export default new Vuex.Store({
       }
 
       if (isShow) {
-        document.documentElement.classList.add(htmlClassName)
-        console.log(document)
+        document.documentElement.classList.add('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded')
       } else {
-        document.documentElement.classList.remove(htmlClassName)
-        console.log('Documento Falso')
-        console.log(document)
+        document.documentElement.classList.remove('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded')
       }
 
       state.isAsideMobileExpanded = isShow

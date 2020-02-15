@@ -14,15 +14,25 @@ export default {
   computed: {
     menu () {
       return [
-        'General',
+        'Menu',
         [
           {
-            to: '/',
+            to: '/main',
             icon: 'desktop-mac',
             label: 'Dashboard'
+          },
+          {
+            to: '/tasks',
+            icon: 'desktop-mac',
+            label: 'Tasks'
+          },
+          {
+            to: '/projects',
+            icon: 'desktop-mac',
+            label: 'Projects'
           }
         ],
-        'Examples',
+        'Settings',
         [
           {
             action: 'dark-mode-toggle',
@@ -64,12 +74,12 @@ export default {
         'About',
         [
           {
-            href: 'https://admin-null.justboil.me',
+            href: '',
             label: 'Premium Demo',
             icon: 'credit-card'
           },
           {
-            href: 'https://justboil.me/bulma-admin-template/null',
+            href: '',
             label: 'About',
             icon: 'help-circle'
           }

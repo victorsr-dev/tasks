@@ -1,9 +1,6 @@
 <template>
   <div>
-    <title-bar :title-stack="titleStack"/>
-    <hero-bar :has-right-visible="false">
-      Dashboard
-    </hero-bar>
+    <header-bar title="Dashboard" :title-stack="titleStack" />
     <section class="section is-main-section">
       <tiles>
         <card-widget class="tile is-child" type="is-primary" icon="account-multiple" :number="512" label="Clients"/>
@@ -30,8 +27,7 @@
 </template>
 <script>
 import * as chartConfig from '@/components/Charts/chart.config'
-import TitleBar from '@/components/TitleBar'
-import HeroBar from '@/components/HeroBar'
+import HeaderBar from '@/components/HeaderBar'
 import Tiles from '@/components/Tiles'
 import CardWidget from '@/components/CardWidget'
 import CardComponent from '@/components/CardComponent'
@@ -46,8 +42,7 @@ export default {
     CardComponent,
     CardWidget,
     Tiles,
-    HeroBar,
-    TitleBar
+    HeaderBar
   },
   data () {
     return {
