@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import ProjectService from '../services/project'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     user: {},
+    projects: [],
     /* User */
     userName: null,
     userEmail: null,
@@ -71,14 +73,36 @@ export default new Vuex.Store({
         document.documentElement.classList.remove(htmlClassName)
       }
     },
+
     SET_USER (state, user) {
       state.user = user
+    },
+
+    SET_PROJECTS (state, projects) {
+      state.projects = projects
+    },
+
+    ADD_PROJECT (state, project) {
+      state.projects.push(project)
     }
   },
   actions: {
     setUser (context, user) {
       context.commit('SET_USER', user)
+    },
+    getProjects (context) {
+      return ProjectService.getProjects().then(res => {
+        context.commit('SET_PROJECTS', res.data.projects)
+      })
+    },
+    createProject (context, project) {
+      return ProjectService.postProject(project).then(res => {
+        context.commit('ADD_PROJECT', res.data.project)
+      })
     }
+  },
+  getters: {
+    projects: state => state.projects
   },
   modules: {
   }

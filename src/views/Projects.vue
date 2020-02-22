@@ -32,7 +32,8 @@
           </b-field>
         </form>
       </card-component>
-       <card-component class="has-table has-mobile-sort-spaced" title="Clients" icon="account-multiple">
+      <card-component title="Projects" class="has-table has-mobile-sort-spaced" >
+        <projects-table :checkable="true" />
       </card-component>
 
     </section>
@@ -41,6 +42,7 @@
 <script>
 import HeaderBar from '@/components/HeaderBar'
 import CardComponent from '@/components/CardComponent'
+import ProjectsTable from '@/components/ProjectsTable'
 
 import mapValues from 'lodash/mapValues'
 
@@ -48,18 +50,14 @@ export default {
   name: 'Projects',
   components: {
     HeaderBar,
-    CardComponent
+    CardComponent,
+    ProjectsTable
   },
   data () {
     return {
       isLoading: false,
       form: {
-        name: null,
-        email: null,
-        phone: null,
-        department: null,
-        subject: null,
-        question: null
+        name: null
       },
       customElementsForm: {
         switch: true
@@ -76,7 +74,8 @@ export default {
   },
   methods: {
     submit () {
-
+      this.$store.dispatch('createProject', this.form)
+      this.reset()
     },
     reset () {
       this.form = mapValues(this.form, item => {

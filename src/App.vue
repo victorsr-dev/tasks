@@ -37,51 +37,8 @@ export default {
           {
             action: 'dark-mode-toggle',
             label: 'Dark / White',
-            icon: 'weather-night'
-          },
-          {
-            to: '/tables',
-            label: 'Tables',
-            icon: 'table',
+            icon: 'weather-night',
             updateMark: true
-          },
-          {
-            to: '/forms',
-            label: 'Forms',
-            icon: 'square-edit-outline'
-          },
-          {
-            to: '/profile',
-            label: 'Profile',
-            icon: 'account-circle'
-          },
-          {
-            label: 'Submenus',
-            subLabel: 'Submenus Example',
-            icon: 'view-list',
-            menu: [
-              {
-                href: '#void',
-                label: 'Sub-item One'
-              },
-              {
-                href: '#void',
-                label: 'Sub-item Two'
-              }
-            ]
-          }
-        ],
-        'About',
-        [
-          {
-            href: '',
-            label: 'Premium Demo',
-            icon: 'credit-card'
-          },
-          {
-            href: '',
-            label: 'About',
-            icon: 'help-circle'
           }
         ]
       ]

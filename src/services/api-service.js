@@ -5,7 +5,6 @@ const apiService = trae.create({
 })
 
 const fullfillMiddleware = (res) => {
-  console.log(res)
   res.data.foo = 'bar'
   return res
 }
