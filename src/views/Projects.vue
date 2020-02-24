@@ -23,10 +23,10 @@
           <b-field horizontal>
             <b-field grouped>
               <div class="control">
-                <b-button native-type="submit" type="is-primary">Submit</b-button>
+                <b-button native-type="submit" type="is-primary">Create</b-button>
               </div>
               <div class="control">
-                <b-button type="is-primary is-outlined" @click="reset">Reset</b-button>
+                <b-button type="is-primary is-outlined" @click="reset">Clear</b-button>
               </div>
             </b-field>
           </b-field>

@@ -96,6 +96,7 @@ export default {
     },
     trashConfirm () {
       this.isModalActive = false
+      this.$store.dispatch('deleteProject', this.trashObject)
       this.$buefy.snackbar.open({
         message: 'Confirmed',
         queue: false

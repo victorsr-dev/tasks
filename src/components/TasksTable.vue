@@ -11,14 +11,14 @@
       :striped="true"
       :hoverable="true"
       default-sort="name"
-      :data="projects">
+      :data="tasks">
 
       <template slot-scope="props">
         <b-table-column label="Name" field="name" sortable>
-          {{ props.row.name }}
+          {{ props.row.description }}
         </b-table-column>
         <b-table-column label="Project" field="project" sortable>
-          {{ props.row.project }}
+          {{ props.row.project.name }}
         </b-table-column>
         <b-table-column label="Created">
           <small class="has-text-grey is-abbr-like" :title="props.row.created">{{ props.row.created }}</small>
@@ -27,7 +27,7 @@
           <small class="has-text-grey is-abbr-like" :title="props.row.finish">{{ props.row.finish }}</small>
         </b-table-column>
         <b-table-column label="Active">
-          <small class="has-text-grey is-abbr-like" :title="props.row.active">{{ props.row.active ? 'ACTIVE' : 'INACTIVE' }}</small>
+          <small class="has-text-grey is-abbr-like" :title="props.row.active">{{ props.row.state ? 'ACTIVE' : 'INACTIVE' }}</small>
         </b-table-column>
         <b-table-column custom-key="actions" class="is-actions-cell">
           <div class="buttons is-right">
@@ -58,9 +58,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import ModalBox from '@/components/ModalBox'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'TasksTable',
   components: { ModalBox },
@@ -74,7 +73,6 @@ export default {
     return {
       isModalActive: false,
       trashObject: null,
-      projects: [],
       isLoading: false,
       paginated: false,
       perPage: 10,
@@ -82,6 +80,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['tasks']),
     trashObjectName () {
       if (this.trashObject) {
         return this.trashObject.name
@@ -91,43 +90,7 @@ export default {
     }
   },
   mounted () {
-    this.projects = [{
-      id: 1,
-      name: 'Descripcion 1',
-      project: 'SIMOTI-CHILE',
-      created: 'Jun 28, 2019',
-      finish: 'Aug 29, 2018',
-      active: true
-    },
-    {
-      id: 2,
-      name: 'Descripcion 2',
-      project: 'RMS-COLOMBIA',
-      created: 'Aug 29, 2018',
-      finish: 'Aug 29, 2018',
-      active: true
-    }]
-    if (this.dataUrl) {
-      this.isLoading = true
-      axios
-        .get(this.dataUrl)
-        .then(r => {
-          this.isLoading = false
-          if (r.data && r.data.data) {
-            if (r.data.data.length > this.perPage) {
-              this.paginated = true
-            }
-            this.clients = r.data.data
-          }
-        })
-        .catch(e => {
-          this.isLoading = false
-          this.$buefy.toast.open({
-            message: `Error: ${e.message}`,
-            type: 'is-danger'
-          })
-        })
-    }
+    this.$store.dispatch('getTasks')
   },
   methods: {
     trashModal (trashObject) {

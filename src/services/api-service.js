@@ -10,7 +10,6 @@ const fullfillMiddleware = (res) => {
 }
 
 const rejectMiddleware = (err) => {
-  console.error(err.message)
   return Promise.reject(err)
 }
 

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ProjectService from '../services/project'
+import TaskService from '../services/task'
 
 Vue.use(Vuex)
 
@@ -8,6 +9,7 @@ export default new Vuex.Store({
   state: {
     user: {},
     projects: [],
+    tasks: [],
     /* User */
     userName: null,
     userEmail: null,
@@ -84,6 +86,21 @@ export default new Vuex.Store({
 
     ADD_PROJECT (state, project) {
       state.projects.push(project)
+    },
+
+    REMOVE_PROJECT (state, project) {
+      let index = state.projects.findIndex(p => p._id === project._id)
+      state.projects.splice(index, 1)
+    },
+
+    SET_TASKS (state, tasks) {
+      state.tasks = tasks
+    },
+
+    ADD_TASK (state, task) {
+      const project = state.projects.find(p => p._id === task.project)
+      task.project = project
+      state.tasks.push(task)
     }
   },
   actions: {
@@ -99,10 +116,32 @@ export default new Vuex.Store({
       return ProjectService.postProject(project).then(res => {
         context.commit('ADD_PROJECT', res.data.project)
       })
+    },
+    deleteProject (context, project) {
+      return ProjectService.deleteProject(project).then(res => {
+        context.commit('REMOVE_PROJECT', res.data.project)
+      })
+    },
+    getTasks (context) {
+      return TaskService.getTasks().then(res => {
+        context.commit('SET_TASKS', res.data.tasks)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    createTask (context, task) {
+      return TaskService.postTask(task).then(res => {
+        console.log(res)
+        context.commit('ADD_TASK', res.data.task)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   getters: {
-    projects: state => state.projects
+    projects: state => state.projects,
+    tasks: state => state.tasks,
+    user: state => state.user
   },
   modules: {
   }

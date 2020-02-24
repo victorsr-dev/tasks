@@ -17,4 +17,8 @@ service.postProject = function (project) {
   return apiService.post('/project', project, header)
 }
 
+service.deleteProject = function (project) {
+  return apiService.delete(`/project/${project._id}`)
+}
+
 export default service

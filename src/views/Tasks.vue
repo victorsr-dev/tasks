@@ -9,7 +9,7 @@
               <b-field label="Project" horizontal>
                 <b-select placeholder="Select a project" v-model="form.project" required>
                   <option v-for="(project, index) in projects" :key="index" :value="project">
-                    {{ project }}
+                    {{ project.name }}
                   </option>
                 </b-select>
               </b-field>
@@ -20,6 +20,13 @@
               </b-field>
             </div>
             <div class="column">
+              <b-field label="Priority" horizontal>
+                <b-select placeholder="Select a priority" v-model="form.priority" required>
+                  <option v-for="(value, index) in [1,2,3,4,5]" :key="index" :value="value">
+                    {{ value }}
+                  </option>
+                </b-select>
+              </b-field>
               <b-field label="State" horizontal>
                 <b-switch v-model="customElementsForm.switch">
                   Active
@@ -53,6 +60,8 @@ import TasksTable from '@/components/TasksTable'
 
 import mapValues from 'lodash/mapValues'
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Tasks',
   components: {
@@ -62,22 +71,21 @@ export default {
   },
   data () {
     return {
-      isLoading: false,
       form: {
         name: null,
-        project: null
+        project: null,
+        priority: null
       },
       customElementsForm: {
         switch: true
-      },
-      projects: [
-        'RMS-COLOMBIA',
-        'SIMOTI-CHILE',
-        'PERSONAL'
-      ]
+      }
     }
   },
+  mounted () {
+    this.$store.dispatch('getProjects')
+  },
   computed: {
+    ...mapGetters(['projects', 'tasks', 'user']),
     titleStack () {
       return [
         'Admin',
@@ -87,7 +95,13 @@ export default {
   },
   methods: {
     submit () {
-
+      const task = {
+        description: this.form.name,
+        priority: this.form.priority,
+        user: this.user._id,
+        project: this.form.project._id
+      }
+      this.$store.dispatch('createTask', task)
     },
     reset () {
       this.form = mapValues(this.form, item => {
