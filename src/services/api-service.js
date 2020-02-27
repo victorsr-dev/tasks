@@ -1,18 +1,7 @@
-import trae from 'trae'
+import axios from 'axios'
 
-const apiService = trae.create({
-  baseUrl: process.env.VUE_APP_URL
+const instance = axios.create({
+  baseURL: process.env.VUE_APP_URL
 })
 
-const fullfillMiddleware = (res) => {
-  res.data.foo = 'bar'
-  return res
-}
-
-const rejectMiddleware = (err) => {
-  return Promise.reject(err)
-}
-
-apiService.after(fullfillMiddleware, rejectMiddleware)
-
-export default apiService
+export default instance

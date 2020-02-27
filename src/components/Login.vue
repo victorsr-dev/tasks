@@ -47,7 +47,6 @@
     </section>
 </template>
 <script>
-import LoginService from '@/services/login'
 export default {
   name: 'Login',
   data () {
@@ -59,26 +58,17 @@ export default {
     }
   },
   methods: {
-    async login () {
-      try {
-        const res = await LoginService.getUser(this.user)
-        if (res.data.success) {
-          this.$store.dispatch('setUser', res.data.user)
-          this.$router.push({ name: 'main' })
-        } else {
-          this.$swal({
-            icon: 'error',
-            title: 'Oops...',
-            text: `${res.data.error}`
-          })
-        }
-      } catch (error) {
+    login () {
+      this.$store.dispatch('login').then(() => {
+        this.$router.push({ name: 'main' })
+      }).catch(err => {
+        console.log(err.response)
         this.$swal({
           icon: 'error',
           title: 'Oops...',
-          text: `User or password incorrect!`
+          text: `${err}`
         })
-      }
+      })
     }
   }
 }

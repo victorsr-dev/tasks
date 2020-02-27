@@ -2,11 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ProjectService from '../services/project'
 import TaskService from '../services/task'
+import LoginService from '../services/login'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    token: localStorage.getItem('token'),
     user: {},
     projects: [],
     tasks: [],
@@ -106,6 +108,11 @@ export default new Vuex.Store({
   actions: {
     setUser (context, user) {
       context.commit('SET_USER', user)
+    },
+    login (context, user) {
+      return LoginService.getUser(user).then(res => {
+        console.log(res)
+      })
     },
     getProjects (context) {
       return ProjectService.getProjects().then(res => {
