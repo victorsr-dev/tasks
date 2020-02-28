@@ -9,6 +9,10 @@ import store from '../store/'
 
 Vue.use(VueRouter)
 
+const meta = {
+  requiresAuth: true
+}
+
 const routes = [
   {
     path: '/',
@@ -18,17 +22,20 @@ const routes = [
   {
     path: '/main',
     name: 'main',
-    component: Main
+    component: Main,
+    meta
   },
   {
     path: '/tasks',
     name: 'tasks',
-    component: Tasks
+    component: Tasks,
+    meta
   },
   {
     path: '/projects',
     name: 'projects',
-    component: Projects
+    component: Projects,
+    meta
   },
   {
     path: '/about',
@@ -36,7 +43,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta
   }
 ]
 
@@ -58,6 +66,18 @@ router.afterEach((to, from, next) => {
     store.commit('asideMobileStateToggle', false)
   } else {
     store.commit('asideMobileStateToggle', true)
+  }
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next({ name: 'Login' })
+  } else {
+    next()
   }
 })
 

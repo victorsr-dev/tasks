@@ -59,14 +59,13 @@ export default {
   },
   methods: {
     login () {
-      this.$store.dispatch('login').then(() => {
+      this.$store.dispatch('login', this.user).then(() => {
         this.$router.push({ name: 'main' })
       }).catch(err => {
-        console.log(err.response)
         this.$swal({
           icon: 'error',
           title: 'Oops...',
-          text: `${err}`
+          text: `${err.response.data.error}`
         })
       })
     }

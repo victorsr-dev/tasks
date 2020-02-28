@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem('token') || '',
     user: {},
     projects: [],
     tasks: [],
@@ -78,7 +78,7 @@ export default new Vuex.Store({
       }
     },
 
-    SET_USER (state, user) {
+    AUTH_SUCCESS (state, user) {
       state.user = user
     },
 
@@ -111,7 +111,9 @@ export default new Vuex.Store({
     },
     login (context, user) {
       return LoginService.getUser(user).then(res => {
-        console.log(res)
+        const { user, token } = res.data
+        localStorage.setItem('token', token)
+        context.commit('AUTH_SUCCESS', user, token)
       })
     },
     getProjects (context) {
@@ -148,7 +150,8 @@ export default new Vuex.Store({
   getters: {
     projects: state => state.projects,
     tasks: state => state.tasks,
-    user: state => state.user
+    user: state => state.user,
+    isLoggedIn: state => !!state.token
   },
   modules: {
   }
