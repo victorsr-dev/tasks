@@ -65,7 +65,7 @@ export default {
         this.$swal({
           icon: 'error',
           title: 'Oops...',
-          text: `${err.response.data.error}`
+          text: `${err.data.error}`
         })
       })
     }

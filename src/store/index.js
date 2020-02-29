@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router/index'
 import ProjectService from '../services/project'
 import TaskService from '../services/task'
 import LoginService from '../services/login'
@@ -17,7 +18,7 @@ export default new Vuex.Store({
     userEmail: null,
     userAvatar: null,
     /* NavBar */
-    isNavBarVisible: true,
+    isNavBarVisible: false,
 
     /* FooterBar */
     isFooterBarVisible: true,
@@ -55,13 +56,12 @@ export default new Vuex.Store({
       } else {
         isShow = !state.isAsideMobileExpanded
       }
-
       if (isShow) {
-        document.documentElement.classList.add('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded')
+        document.documentElement.classList.add('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded', 'has-aside-mobile-expanded')
       } else {
-        document.documentElement.classList.remove('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded')
+        document.documentElement.classList.remove('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded', 'has-aside-mobile-expanded')
       }
-
+      console.log(document)
       state.isAsideMobileExpanded = isShow
     },
 
@@ -79,9 +79,16 @@ export default new Vuex.Store({
     },
 
     AUTH_SUCCESS (state, user) {
+      console.log('Usuario: ', user)
       state.user = user
+      state.token = localStorage.getItem('token')
+      state.isNavBarVisible = true
     },
-
+    LOGOUT_SUCCESS (state) {
+      state.user = {}
+      state.token = ''
+      state.isNavBarVisible = false
+    },
     SET_PROJECTS (state, projects) {
       state.projects = projects
     },
@@ -111,14 +118,21 @@ export default new Vuex.Store({
     },
     login (context, user) {
       return LoginService.getUser(user).then(res => {
+        console.log(res)
         const { user, token } = res.data
         localStorage.setItem('token', token)
-        context.commit('AUTH_SUCCESS', user, token)
+        context.commit('AUTH_SUCCESS', user)
       })
+    },
+    logout (context) {
+      localStorage.removeItem('token')
+      context.commit('LOGOUT_SUCCESS')
     },
     getProjects (context) {
       return ProjectService.getProjects().then(res => {
         context.commit('SET_PROJECTS', res.data.projects)
+      }).catch(err => {
+        handleErrorRequest(err)
       })
     },
     createProject (context, project) {
@@ -129,6 +143,8 @@ export default new Vuex.Store({
     deleteProject (context, project) {
       return ProjectService.deleteProject(project).then(res => {
         context.commit('REMOVE_PROJECT', res.data.project)
+      }).catch(err => {
+        console.log(err)
       })
     },
     getTasks (context) {
@@ -140,7 +156,6 @@ export default new Vuex.Store({
     },
     createTask (context, task) {
       return TaskService.postTask(task).then(res => {
-        console.log(res)
         context.commit('ADD_TASK', res.data.task)
       }).catch(err => {
         console.log(err)
@@ -156,3 +171,10 @@ export default new Vuex.Store({
   modules: {
   }
 })
+
+function handleErrorRequest (err) {
+  if (err.status === 401) {
+    router.push({ name: 'Login' })
+    
+  }
+}

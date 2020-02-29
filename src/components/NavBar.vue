@@ -4,11 +4,11 @@
       <a class="navbar-item is-hidden-desktop" @click.prevent="menuToggleMobile">
         <b-icon :icon="menuToggleMobileIcon"/>
       </a>
-      <div class="navbar-item no-left-space-touch">
+      <!--div class="navbar-item no-left-space-touch">
         <div class="control">
           <input class="input" placeholder="Search everywhere...">
         </div>
-      </div>
+      </div-->
     </div>
     <div class="navbar-brand is-right">
       <a class="navbar-item navbar-item-menu-toggle is-hidden-desktop" @click.prevent="menuNavBarToggle">
@@ -17,7 +17,7 @@
     </div>
     <div class="navbar-menu fadeIn animated faster" :class="{'is-active':isMenuNavBarActive}">
       <div class="navbar-end">
-        <nav-bar-menu class="has-divider">
+        <!--nav-bar-menu class="has-divider">
           <b-icon icon="menu" custom-size="default"/>
           <span>Sample Menu</span>
           <div slot="dropdown" class="navbar-dropdown">
@@ -39,7 +39,7 @@
               <span>Log Out</span>
             </a>
           </div>
-        </nav-bar-menu>
+        </nav-bar-menu-->
         <nav-bar-menu class="has-divider has-user-avatar">
           <user-avatar/>
           <div class="is-user-name">
@@ -70,7 +70,7 @@
           <b-icon :icon="darkModeToggleIcon" custom-size="default"/>
           <span>Dark mode</span>
         </a>
-        <a href="https://justboil.me/bulma-admin-template/null" class="navbar-item has-divider is-desktop-icon-only" title="About">
+        <a href="/main" class="navbar-item has-divider is-desktop-icon-only" title="About">
           <b-icon icon="help-circle-outline" custom-size="default"/>
           <span>About</span>
         </a>
@@ -130,6 +130,10 @@ export default {
       this.$buefy.snackbar.open({
         message: 'Log out clicked',
         queue: false
+      })
+
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push({ name: 'Login' })
       })
     }
   }

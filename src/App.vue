@@ -1,15 +1,18 @@
 <template>
   <div id="app">
+    <nav-bar/>
     <aside-menu :menu="menu" @menu-click="menuClick"/>
     <router-view/>
   </div>
 </template>
 <script>
 import AsideMenu from '@/components/AsideMenu'
+import NavBar from '@/components/NavBar'
 export default {
   name: 'home',
   components: {
-    AsideMenu
+    AsideMenu,
+    NavBar
   },
   computed: {
     menu () {
