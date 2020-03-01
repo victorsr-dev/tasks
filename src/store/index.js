@@ -79,7 +79,6 @@ export default new Vuex.Store({
     },
 
     AUTH_SUCCESS (state, user) {
-      console.log('Usuario: ', user)
       state.user = user
       state.token = localStorage.getItem('token')
       state.isNavBarVisible = true
@@ -110,6 +109,11 @@ export default new Vuex.Store({
       const project = state.projects.find(p => p._id === task.project)
       task.project = project
       state.tasks.push(task)
+    },
+
+    REMOVE_TASK (state, task) {
+      let index = state.tasks.findIndex(t => t._id === task._id)
+      state.tasks.splice(index, 1)
     }
   },
   actions: {
@@ -118,7 +122,6 @@ export default new Vuex.Store({
     },
     login (context, user) {
       return LoginService.getUser(user).then(res => {
-        console.log(res)
         const { user, token } = res.data
         localStorage.setItem('token', token)
         context.commit('AUTH_SUCCESS', user)
@@ -144,21 +147,28 @@ export default new Vuex.Store({
       return ProjectService.deleteProject(project).then(res => {
         context.commit('REMOVE_PROJECT', res.data.project)
       }).catch(err => {
-        console.log(err)
+        handleErrorRequest(err)
       })
     },
     getTasks (context) {
       return TaskService.getTasks().then(res => {
         context.commit('SET_TASKS', res.data.tasks)
       }).catch(err => {
-        console.log(err)
+        handleErrorRequest(err)
       })
     },
     createTask (context, task) {
       return TaskService.postTask(task).then(res => {
         context.commit('ADD_TASK', res.data.task)
       }).catch(err => {
-        console.log(err)
+        handleErrorRequest(err)
+      })
+    },
+    deleteTask (context, task) {
+      return TaskService.deleteTask(task).then(res => {
+        context.commit('REMOVE_TASK', res.data.task)
+      }).catch(err => {
+        handleErrorRequest(err)
       })
     }
   },
@@ -175,6 +185,5 @@ export default new Vuex.Store({
 function handleErrorRequest (err) {
   if (err.status === 401) {
     router.push({ name: 'Login' })
-    
   }
 }
