@@ -61,7 +61,6 @@ export default new Vuex.Store({
       } else {
         document.documentElement.classList.remove('has-aside-left', 'has-aside-mobile-transition', 'has-navbar-fixed-top', 'has-aside-expanded', 'has-aside-mobile-expanded')
       }
-      console.log(document)
       state.isAsideMobileExpanded = isShow
     },
 

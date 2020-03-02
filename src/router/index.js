@@ -71,8 +71,6 @@ router.afterEach((to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    console.log('Entra al before ')
-    console.log('valor de isloggedIn: ', store.getters.isLoggedIn)
     if (store.getters.isLoggedIn) {
       next()
       return
