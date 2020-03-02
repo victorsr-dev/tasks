@@ -176,7 +176,9 @@ export default new Vuex.Store({
     projects: state => state.projects,
     tasks: state => state.tasks,
     user: state => state.user,
-    isLoggedIn: state => !!state.token
+    isLoggedIn: state => !!state.token,
+    tasksNumber: state => state.tasks.length,
+    projectsNumber: state => state.projects.length
   },
   modules: {
   }

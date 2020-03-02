@@ -3,9 +3,9 @@
     <header-bar title="Dashboard" :title-stack="titleStack" />
     <section class="section is-main-section">
       <tiles>
-        <card-widget class="tile is-child" type="is-primary" icon="account-multiple" :number="512" label="Clients"/>
-        <card-widget class="tile is-child" type="is-info" icon="cart-outline" :number="7770" prefix="$" label="Sales"/>
-        <card-widget class="tile is-child" type="is-success" icon="chart-timeline-variant" :number="256" suffix="%" label="Performance"/>
+        <card-widget class="tile is-child" type="is-primary" icon="projector-screen" :number="projectsNumber" label="Projects"/>
+        <card-widget class="tile is-child" type="is-info" icon="cart-outline" :number="tasksNumber" label="Tasks"/>
+        <card-widget class="tile is-child" type="is-success" icon="chart-timeline-variant" :number="0" suffix="%" label="Performance"/>
       </tiles>
 
       <card-component title="Performance" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
@@ -23,6 +23,9 @@
 </template>
 <script>
 import * as chartConfig from '@/components/Charts/chart.config'
+
+import { mapGetters } from 'vuex'
+
 import HeaderBar from '@/components/HeaderBar'
 import Tiles from '@/components/Tiles'
 import CardWidget from '@/components/CardWidget'
@@ -47,6 +50,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['tasksNumber', 'projectsNumber']),
     titleStack () {
       return [
         'Admin',
@@ -61,6 +65,9 @@ export default {
       message: 'Welcome back',
       queue: false
     })
+
+    this.$store.dispatch('getTasks')
+    this.$store.dispatch('getProjects')
   },
   methods: {
     randomChartData (n) {
