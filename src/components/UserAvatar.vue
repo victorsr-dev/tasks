@@ -24,13 +24,13 @@ export default {
         return this.userAvatar
       }
 
-      let name = 'somename'
+      let name = 'victor'
 
       if (this.userName) {
         name = this.userName.replace(/[^a-z0-9]+/i, '')
       }
 
-      return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`
+      return `https://avatars.dicebear.com/v2/male/${name}.svg`
     },
     ...mapState([
       'userAvatar',

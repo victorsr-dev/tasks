@@ -28,12 +28,12 @@ export default {
           },
           {
             to: '/tasks',
-            icon: 'desktop-mac',
+            icon: 'calendar-check',
             label: 'Tasks'
           },
           {
             to: '/projects',
-            icon: 'desktop-mac',
+            icon: 'folder-outline',
             label: 'Projects'
           }
         ],

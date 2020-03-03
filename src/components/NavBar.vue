@@ -43,7 +43,7 @@
         <nav-bar-menu class="has-divider has-user-avatar">
           <user-avatar/>
           <div class="is-user-name">
-            <span>{{ userName }}</span>
+            <span>{{ user.name }}</span>
           </div>
 
           <div slot="dropdown" class="navbar-dropdown">
@@ -70,10 +70,6 @@
           <b-icon :icon="darkModeToggleIcon" custom-size="default"/>
           <span>Dark mode</span>
         </a>
-        <a href="/main" class="navbar-item has-divider is-desktop-icon-only" title="About">
-          <b-icon icon="help-circle-outline" custom-size="default"/>
-          <span>About</span>
-        </a>
         <a class="navbar-item is-desktop-icon-only" title="Log out" @click="logout">
           <b-icon icon="logout" custom-size="default"/>
           <span>Log out</span>
@@ -84,7 +80,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import NavBarMenu from '@/components/NavBarMenu'
 import UserAvatar from '@/components/UserAvatar'
 
@@ -112,9 +108,9 @@ export default {
     ...mapState([
       'isNavBarVisible',
       'isAsideMobileExpanded',
-      'isDarkModeActive',
-      'userName'
-    ])
+      'isDarkModeActive'
+    ]),
+    ...mapGetters(['user'])
   },
   methods: {
     menuToggleMobile () {

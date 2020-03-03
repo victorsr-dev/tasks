@@ -47,7 +47,7 @@
         </form>
       </card-component>
       <card-component title="Tasks" class="has-table has-mobile-sort-spaced" >
-        <tasks-table :checkable="true" />
+        <tasks-table :checkable="true" @selected-object="editTask" />
       </card-component>
 
     </section>
@@ -115,6 +115,9 @@ export default {
         message: 'Reset successfully',
         queue: false
       })
+    },
+    editTask (e) {
+      console.log(e)
     }
   }
 }

@@ -4,14 +4,15 @@
                @cancel="trashCancel"/>
     <b-table
       :checked-rows.sync="checkedRows"
-      :checkable="checkable"
       :loading="isLoading"
       :paginated="paginated"
       :per-page="perPage"
       :striped="true"
       :hoverable="true"
       default-sort="name"
-      :data="tasks">
+      :data="tasks"
+      focusable
+      checkbox-position="right">
 
       <template slot-scope="props">
         <b-table-column label="Name" field="name" sortable>
@@ -21,7 +22,11 @@
           {{ props.row.project.name }}
         </b-table-column>
         <b-table-column label="Created">
-          <small class="has-text-grey is-abbr-like" :title="props.row.created">{{ props.row.created }}</small>
+          <small class="has-text-grey is-abbr-like" :title="props.row.created">
+            <span class="tag is-success">
+              {{ props.row.created }}
+            </span>
+          </small>
         </b-table-column>
         <b-table-column label="Finish">
           <small class="has-text-grey is-abbr-like" :title="props.row.finish">{{ props.row.finish }}</small>
@@ -32,6 +37,13 @@
         <b-table-column custom-key="actions" class="is-actions-cell">
           <div class="buttons is-right">
             <button class="button is-small is-danger" type="button" @click.prevent="trashModal(props.row)">
+              <b-icon icon="trash-can" size="is-small"/>
+            </button>
+          </div>
+        </b-table-column>
+        <b-table-column custom-key="actions" class="is-actions-cell">
+          <div class="buttons is-right">
+            <button class="button is-small is-primary" type="button" @click="editObject(props.row)">
               <b-icon icon="trash-can" size="is-small"/>
             </button>
           </div>
@@ -93,6 +105,10 @@ export default {
     this.$store.dispatch('getTasks')
   },
   methods: {
+    editObject (editObject) {
+      console.log('Entra al edit')
+      this.$emit('selected-object', editObject)
+    },
     trashModal (trashObject) {
       this.trashObject = trashObject
       this.isModalActive = true
