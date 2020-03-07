@@ -110,6 +110,15 @@ export default new Vuex.Store({
       state.tasks.push(task)
     },
 
+    UPDATE_TASK (state, task) {
+      let project = state.projects.find(p => p._id === task.project)
+      task.project = project
+      state.tasks = [
+        ...state.tasks.filter(element => element._id !== task._id),
+        task
+      ]
+    },
+
     REMOVE_TASK (state, task) {
       let index = state.tasks.findIndex(t => t._id === task._id)
       state.tasks.splice(index, 1)
@@ -163,6 +172,15 @@ export default new Vuex.Store({
         handleErrorRequest(err)
       })
     },
+    updateTask (context, task) {
+      console.log('Entra al update de la acción')
+      return TaskService.updateTask(task).then(res => {
+        console.log(res)
+        context.commit('UPDATE_TASK', res.data.task)
+      }).catch(err => {
+        handleErrorRequest(err)
+      })
+    },
     deleteTask (context, task) {
       return TaskService.deleteTask(task).then(res => {
         context.commit('REMOVE_TASK', res.data.task)
@@ -173,7 +191,7 @@ export default new Vuex.Store({
   },
   getters: {
     projects: state => state.projects,
-    tasks: state => state.tasks,
+    tasks: state => { return state.tasks },
     user: state => state.user,
     isLoggedIn: state => !!state.token,
     tasksNumber: state => state.tasks.length,
@@ -184,6 +202,7 @@ export default new Vuex.Store({
 })
 
 function handleErrorRequest (err) {
+  console.log(err)
   if (err.status === 401) {
     router.push({ name: 'Login' })
   }

@@ -17,6 +17,10 @@ service.postTask = function (task) {
   return apiService.post('/task', task, header)
 }
 
+service.updateTask = function (task) {
+  return apiService.put(`/task/${task._id}`, task, header)
+}
+
 service.deleteTask = function (task) {
   return apiService.delete(`/task/${task._id}`)
 }

@@ -7,21 +7,27 @@
           <div class="columns">
             <div class="column">
               <b-field label="Project" horizontal>
-                <b-select placeholder="Select a project" v-model="form.project" required>
-                  <option v-for="(project, index) in projects" :key="index" :value="project">
+                <b-select
+                  placeholder="Select a project"
+                  v-model="projectSelected"
+                  required>
+                  <option
+                    v-for="project in projects"
+                    :key="project._id"
+                    :value="project">
                     {{ project.name }}
                   </option>
                 </b-select>
               </b-field>
               <b-field label="Name" horizontal>
                 <b-field>
-                  <b-input v-model="form.name" placeholder="Name" name="name" required />
+                  <b-input v-model="task.description" placeholder="Description" name="name" required />
                 </b-field>
               </b-field>
             </div>
             <div class="column">
               <b-field label="Priority" horizontal>
-                <b-select placeholder="Select a priority" v-model="form.priority" required>
+                <b-select placeholder="Select a priority" v-model="task.priority" required>
                   <option v-for="(value, index) in [1,2,3,4,5]" :key="index" :value="value">
                     {{ value }}
                   </option>
@@ -49,7 +55,6 @@
       <card-component title="Tasks" class="has-table has-mobile-sort-spaced" >
         <tasks-table :checkable="true" @selected-object="editTask" />
       </card-component>
-
     </section>
   </div>
 </template>
@@ -71,14 +76,15 @@ export default {
   },
   data () {
     return {
-      form: {
-        name: null,
-        project: null,
-        priority: null
+      task: {
+        description: '',
+        priority: Number
       },
+      projectSelected: Object,
       customElementsForm: {
         switch: true
-      }
+      },
+      isEdit: false
     }
   },
   mounted () {
@@ -96,20 +102,29 @@ export default {
   methods: {
     submit () {
       const task = {
-        description: this.form.name,
-        priority: this.form.priority,
+        description: this.task.description,
+        priority: this.task.priority,
         user: this.user._id,
-        project: this.form.project._id
+        project: this.projectSelected._id
       }
-      this.$store.dispatch('createTask', task)
+      if (this.isEdit) {
+        task._id = this.task._id
+        this.$store.dispatch('updateTask', task)
+      } else {
+        this.$store.dispatch('createTask', task)
+      }
+      this.isEdit = false
+      this.reset()
     },
     reset () {
-      this.form = mapValues(this.form, item => {
+      this.task = mapValues(this.task, item => {
         if (item && typeof item === 'object') {
           return []
         }
         return null
       })
+
+      this.projectSelected = {}
 
       this.$buefy.snackbar.open({
         message: 'Reset successfully',
@@ -117,7 +132,9 @@ export default {
       })
     },
     editTask (e) {
-      console.log(e)
+      this.isEdit = true
+      Object.assign(this.task, e)
+      this.projectSelected = this.projects.find(p => p._id === this.task.project._id)
     }
   }
 }

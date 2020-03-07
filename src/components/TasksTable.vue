@@ -22,7 +22,7 @@
           {{ props.row.project.name }}
         </b-table-column>
         <b-table-column label="Created">
-          <small class="has-text-grey is-abbr-like" :title="props.row.created">
+          <small class="has-text-grey is-abbr-like" :title="props.row.created" sortable>
             <span class="tag is-success">
               {{ props.row.created }}
             </span>
@@ -106,7 +106,6 @@ export default {
   },
   methods: {
     editObject (editObject) {
-      console.log('Entra al edit')
       this.$emit('selected-object', editObject)
     },
     trashModal (trashObject) {
