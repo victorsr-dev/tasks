@@ -17,6 +17,10 @@ service.postProject = function (project) {
   return apiService.post('/project', project, header)
 }
 
+service.updateProject = function (project) {
+  return apiService.put(`/project/${project._id}`, project, header)
+}
+
 service.deleteProject = function (project) {
   return apiService.delete(`/project/${project._id}`)
 }

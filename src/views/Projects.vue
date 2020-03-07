@@ -8,7 +8,7 @@
             <div class="column">
               <b-field label="Name" horizontal>
                 <b-field>
-                  <b-input v-model="form.name" placeholder="Name" name="name" required />
+                  <b-input v-model="Project.name" placeholder="Name" name="name" required />
                 </b-field>
               </b-field>
             </div>
@@ -33,7 +33,7 @@
         </form>
       </card-component>
       <card-component title="Projects" class="has-table has-mobile-sort-spaced" >
-        <projects-table :checkable="true" />
+        <projects-table :checkable="true" @selected-object="editProject" />
       </card-component>
 
     </section>
@@ -56,12 +56,13 @@ export default {
   data () {
     return {
       isLoading: false,
-      form: {
+      Project: {
         name: null
       },
       customElementsForm: {
         switch: true
-      }
+      },
+      isEdit: false
     }
   },
   computed: {
@@ -74,11 +75,16 @@ export default {
   },
   methods: {
     submit () {
-      this.$store.dispatch('createProject', this.form)
+      if (this.isEdit) {
+        this.$store.dispatch('updateProject', this.Project)
+      } else {
+        this.$store.dispatch('createProject', this.Project)
+      }
+      this.isEdit = false
       this.reset()
     },
     reset () {
-      this.form = mapValues(this.form, item => {
+      this.Project = mapValues(this.Project, item => {
         if (item && typeof item === 'object') {
           return []
         }
@@ -89,6 +95,10 @@ export default {
         message: 'Reset successfully',
         queue: false
       })
+    },
+    editProject (e) {
+      this.isEdit = true
+      Object.assign(this.Project, e)
     }
   }
 }

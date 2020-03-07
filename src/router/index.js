@@ -64,8 +64,10 @@ const router = new VueRouter({
 router.afterEach((to, from, next) => {
   if (to.name === 'Login') {
     store.commit('asideMobileStateToggle', false)
+    store.commit('navbarState')
   } else {
     store.commit('asideMobileStateToggle', true)
+    store.commit('navbarState', true)
   }
 })
 

@@ -4,7 +4,6 @@
                @cancel="trashCancel"/>
     <b-table
       :checked-rows.sync="checkedRows"
-      :checkable="checkable"
       :loading="isLoading"
       :paginated="paginated"
       :per-page="perPage"
@@ -18,7 +17,11 @@
           {{ props.row.name }}
         </b-table-column>
         <b-table-column label="Created">
-          <small class="has-text-grey is-abbr-like" :title="props.row.created">{{ props.row.created }}</small>
+          <small class="has-text-grey is-abbr-like" :title="props.row.created" sortable>
+            <span class="tag is-success">
+              {{ props.row.created }}
+            </span>
+          </small>
         </b-table-column>
         <b-table-column label="Active">
           <small class="has-text-grey is-abbr-like" :title="props.row.active">{{ props.row.state ? 'ACTIVE' : 'INACTIVE' }}</small>
@@ -26,6 +29,13 @@
         <b-table-column custom-key="actions" class="is-actions-cell">
           <div class="buttons is-right">
             <button class="button is-small is-danger" type="button" @click.prevent="trashModal(props.row)">
+              <b-icon icon="trash-can" size="is-small"/>
+            </button>
+          </div>
+        </b-table-column>
+        <b-table-column custom-key="actions" class="is-actions-cell">
+          <div class="buttons is-right">
+            <button class="button is-small is-primary" type="button" @click="editObject(props.row)">
               <b-icon icon="trash-can" size="is-small"/>
             </button>
           </div>
@@ -90,6 +100,9 @@ export default {
     this.$store.dispatch('getProjects')
   },
   methods: {
+    editObject (editObject) {
+      this.$emit('selected-object', editObject)
+    },
     trashModal (trashObject) {
       this.trashObject = trashObject
       this.isModalActive = true

@@ -77,10 +77,14 @@ export default new Vuex.Store({
       }
     },
 
+    navbarState (state, payload = false) {
+      state.isNavBarVisible = payload
+    },
+
     AUTH_SUCCESS (state, user) {
       state.user = user
       state.token = localStorage.getItem('token')
-      state.isNavBarVisible = true
+      // state.isNavBarVisible = true
     },
     LOGOUT_SUCCESS (state) {
       state.user = {}
@@ -93,6 +97,13 @@ export default new Vuex.Store({
 
     ADD_PROJECT (state, project) {
       state.projects.push(project)
+    },
+
+    UPDATE_PROJECT (state, project) {
+      state.projects = [
+        ...state.projects.filter(element => element._id !== project._id),
+        project
+      ]
     },
 
     REMOVE_PROJECT (state, project) {
@@ -149,7 +160,12 @@ export default new Vuex.Store({
     createProject (context, project) {
       return ProjectService.postProject(project).then(res => {
         context.commit('ADD_PROJECT', res.data.project)
-      })
+      }).catch(err => handleErrorRequest(err))
+    },
+    updateProject (context, project) {
+      return ProjectService.updateProject(project).then(res => {
+        context.commit('UPDATE_PROJECT', res.data.project)
+      }).catch(err => handleErrorRequest(err))
     },
     deleteProject (context, project) {
       return ProjectService.deleteProject(project).then(res => {
