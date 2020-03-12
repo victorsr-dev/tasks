@@ -216,7 +216,6 @@ export default new Vuex.Store({
 })
 
 function handleErrorRequest (err) {
-  console.log(err)
   if (err.status === 401) {
     router.push({ name: 'Login' })
   }
