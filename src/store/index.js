@@ -189,9 +189,7 @@ export default new Vuex.Store({
       })
     },
     updateTask (context, task) {
-      console.log('Entra al update de la acción')
       return TaskService.updateTask(task).then(res => {
-        console.log(res)
         context.commit('UPDATE_TASK', res.data.task)
       }).catch(err => {
         handleErrorRequest(err)
