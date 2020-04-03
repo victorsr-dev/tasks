@@ -19,9 +19,9 @@
                   </option>
                 </b-select>
               </b-field>
-              <b-field label="Name" horizontal>
+              <b-field label="Descripcion" horizontal>
                 <b-field>
-                  <b-input v-model="task.description" placeholder="Description" name="name" required />
+                  <b-input v-model="task.description" placeholder="Description" name="description" required />
                 </b-field>
               </b-field>
             </div>

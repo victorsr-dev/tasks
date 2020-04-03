@@ -6,6 +6,10 @@ html {
   &.is-dark-mode-active {
     background-color: $dark-mode-background-color;
 
+    .board-item-content {
+      background-color: $dark-mode-overlay-background-color
+    }
+
     .modal {
       .modal-background {
         background-color: $dark-mode-overlay-background-color

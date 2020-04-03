@@ -4,6 +4,7 @@ import Home from '../views/Home'
 import Main from '../views/Main.vue'
 import Tasks from '../views/Tasks.vue'
 import Projects from '../views/Projects.vue'
+import Kanban from '../views/Kanban.vue'
 
 import store from '../store/'
 
@@ -35,6 +36,12 @@ const routes = [
     path: '/projects',
     name: 'projects',
     component: Projects,
+    meta
+  },
+  {
+    path: '/kanban',
+    name: 'kanban',
+    component: Kanban,
     meta
   },
   {

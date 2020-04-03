@@ -35,6 +35,11 @@ export default {
             to: '/projects',
             icon: 'folder-outline',
             label: 'Projects'
+          },
+          {
+            to: '/kanban',
+            icon: 'folder-outline',
+            label: 'Kanban'
           }
         ],
         'Settings',
