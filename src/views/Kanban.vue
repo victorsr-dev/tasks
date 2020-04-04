@@ -13,7 +13,7 @@
                 <p>To do</p>
                 <button class="button" @click.prevent="showModal()" > Add Task</button>
               </div>
-              <list-tasks :list-task="todoList"/>
+              <list-tasks :list-task="tasksTodo" nameList="TODO" @change="change"/>
             </article>
           </div>
           <!--Doing List -->
@@ -22,7 +22,7 @@
               <div class="message-header">
                 <p>Doing</p>
               </div>
-              <list-tasks :list-task="doingList"/>
+              <list-tasks :list-task="tasksDoing" nameList="DOING" @change="change"/>
             </article>
           </div>
           <!--Done List -->
@@ -31,7 +31,7 @@
               <div class="message-header">
                 <p>Done</p>
               </div>
-              <list-tasks :list-task="doneList"/>
+              <list-tasks :list-task="tasksDone" nameList="DONE" @change="change"/>
             </article>
           </div>
         </div>
@@ -57,25 +57,12 @@ export default {
   data () {
     return {
       isModalActive: false,
-      todoList: [{
-        title: `Tarea 01`,
-        description: 'Description tarea 1',
-        status: 'ToDo',
-        priority: 1,
-        id: 1
-      }, {
-        title: `Tarea 02`,
-        description: 'Description tarea 2',
-        status: 'ToDo',
-        priority: 2,
-        id: 2
-      }],
-      doingList: [],
-      doneList: []
+      doneList: [],
+      doingList: []
     }
   },
   computed: {
-    ...mapGetters(['tasksNumber', 'projectsNumber']),
+    ...mapGetters(['tasksTodo', 'tasksDoing', 'tasksDone', 'projectsNumber']),
     titleStack () {
       return [
         'Admin',
@@ -93,15 +80,23 @@ export default {
     this.$store.dispatch('getProjects')
   },
   methods: {
-    log: function (evt) {
-      console.log(evt)
+    change: function (nameList, event) {
+      this.updateTaskAdded(nameList, event)
+    },
+    updateTaskAdded (nameList, event) {
+      if (event.added) {
+        let task = event.added.element
+        task.status = nameList
+        this.$store.dispatch('updateTask', task)
+      }
     },
     showModal () {
       this.isModalActive = true
     },
     taskConfirm (task) {
       this.isModalActive = false
-      console.log(task)
+      this.$store.dispatch('createTask', task)
+      // console.log(task)
     },
     taskCancel () {
       this.isModalActive = false
@@ -117,4 +112,5 @@ export default {
 div.column.is-narrow {
   width: 30%;
 }
+
 </style>

@@ -205,7 +205,9 @@ export default new Vuex.Store({
   },
   getters: {
     projects: state => state.projects,
-    tasks: state => { return state.tasks },
+    tasksTodo: state => state.tasks.filter(t => t.status === 'TODO'),
+    tasksDoing: state => state.tasks.filter(t => t.status === 'DOING'),
+    tasksDone: state => state.tasks.filter(t => t.status === 'DONE'),
     user: state => state.user,
     isLoggedIn: state => !!state.token,
     tasksNumber: state => state.tasks.length,

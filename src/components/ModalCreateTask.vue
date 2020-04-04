@@ -19,10 +19,17 @@
           </b-select>
         </b-field>
         <b-field label="Title" horizontal>
-          <b-input v-model="task.description" placeholder="Title" required />
+          <b-input v-model="task.title" placeholder="Title" required />
+        </b-field>
+        <b-field label="Priority" horizontal>
+          <b-select placeholder="Select a priority" v-model="task.priority" required>
+            <option v-for="(value, index) in [1,2,3,4,5]" :key="index" :value="value">
+              {{ value }}
+            </option>
+          </b-select>
         </b-field>
         <b-field label="Description">
-          <b-input maxlength="200" type="textarea"></b-input>
+          <b-input maxlength="200" type="textarea" v-model="task.description"></b-input>
         </b-field>
       </section>
       <footer class="modal-card-foot">
@@ -51,6 +58,7 @@ export default {
     return {
       isModalActive: false,
       task: {
+        title: '',
         description: '',
         priority: Number
       },
@@ -62,11 +70,18 @@ export default {
       this.$emit('cancel')
     },
     confirm () {
-      this.$emit('confirm', this.task)
+      const newTask = {
+        title: this.task.title,
+        description: this.task.description,
+        priority: this.task.priority,
+        user: this.user._id,
+        project: this.projectSelected._id
+      }
+      this.$emit('confirm', newTask)
     }
   },
   computed: {
-    ...mapGetters(['projects'])
+    ...mapGetters(['projects', 'user'])
   },
   watch: {
     isActive (newValue) {

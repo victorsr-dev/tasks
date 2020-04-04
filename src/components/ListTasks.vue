@@ -32,16 +32,25 @@ export default {
     draggable
   },
   props: {
-    listTask: Array
+    listTask: Array,
+    nameList: String
   },
   methods: {
     log: function (evt) {
-      console.log(evt)
+      this.$emit('change', this.nameList, evt)
     }
   }
 }
 </script>
 <style scoped>
+.card-header-title{
+  cursor: pointer;
+  padding: 0.3rem;
+}
+.card-content {
+  padding: 0.5rem;
+}
+
 .cards-container {
   max-width: 95%;
 }
@@ -52,14 +61,12 @@ export default {
 }
 
 .board-item-content {
-  word-break: break-all;
+  word-break: break-word;
   position: relative;
-  padding: 20px;
+  padding: 0px;
   background: #fff;
   border-radius: 4px;
   font-size: 17px;
-  text-align: center;
-  cursor: pointer;
   -webkit-box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
   box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
   margin: 5px;
