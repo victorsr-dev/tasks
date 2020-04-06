@@ -27,18 +27,13 @@ export default {
             label: 'Dashboard'
           },
           {
-            to: '/tasks',
-            icon: 'calendar-check',
-            label: 'Tasks'
-          },
-          {
             to: '/projects',
             icon: 'folder-outline',
             label: 'Projects'
           },
           {
             to: '/kanban',
-            icon: 'folder-outline',
+            icon: 'calendar-check',
             label: 'Kanban'
           }
         ],

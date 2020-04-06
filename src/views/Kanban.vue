@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tasksTodo', 'tasksDoing', 'tasksDone', 'projectsNumber']),
+    ...mapGetters(['tasksTodo', 'tasksDoing', 'tasksDone', 'projectsNumber', 'tasks']),
     titleStack () {
       return [
         'Admin',
@@ -84,10 +84,17 @@ export default {
       this.updateTaskAdded(nameList, event)
     },
     updateTaskAdded (nameList, event) {
+      console.log(event)
       if (event.added) {
         let task = event.added.element
         task.status = nameList
         this.$store.dispatch('updateTask', task)
+        if (nameList === 'TODO') {
+          console.log('Se agrego a TODO')
+          this.tasksTodo[event.added.newIndex] = task
+        }
+        if (nameList === 'DONE') console.log('Se agrego a DOING')
+        if (nameList === 'DOING') console.log('Se agrego a DONE')
       }
     },
     showModal () {
