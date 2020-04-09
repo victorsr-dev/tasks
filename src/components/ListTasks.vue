@@ -1,6 +1,12 @@
 <template>
   <div class="message-body">
-    <draggable class="list-group" :list="listTask" group="people" @change="log">
+    <draggable
+      class="list-group"
+      :list="listTask"
+      group="people"
+      :data-id="nameList"
+      @end="endHandler"
+      @change="log">
       <div
         class="board-item"
         v-for="(element, index) in listTask"
@@ -38,6 +44,19 @@ export default {
   methods: {
     log: function (evt) {
       this.$emit('change', this.nameList, evt)
+    },
+    endHandler: function (e) {
+      const oldColumn = e.from.dataset.id
+      const newColumn = e.to.dataset.id
+      const oldIndex = e.oldIndex
+      const newIndex = e.newIndex
+
+      console.log('End Handler')
+      console.log('Old Column', oldColumn)
+      console.log('New Column', newColumn)
+      console.log('Old Index', oldIndex)
+      console.log('New Index', newIndex)
+      console.log(e)
     }
   }
 }
