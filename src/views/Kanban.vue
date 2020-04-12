@@ -88,10 +88,12 @@ export default {
       if (event.added) {
         let task = event.added.element
         task.status = nameList
-        this.$store.dispatch('updateTask', task)
+
         if (nameList === 'TODO') {
           console.log('Se agrego a TODO')
-          this.tasksTodo[event.added.newIndex] = task
+          console.log(this.tasksTodo[event.added.newIndex].title)
+          task.sort = this.tasksTodo[event.added.newIndex].sort / 2
+          this.$store.dispatch('updateTask', task)
         }
         if (nameList === 'DONE') console.log('Se agrego a DOING')
         if (nameList === 'DOING') console.log('Se agrego a DONE')

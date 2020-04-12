@@ -46,17 +46,17 @@ export default {
       this.$emit('change', this.nameList, evt)
     },
     endHandler: function (e) {
-      const oldColumn = e.from.dataset.id
-      const newColumn = e.to.dataset.id
-      const oldIndex = e.oldIndex
-      const newIndex = e.newIndex
+      // const oldColumn = e.from.dataset.id
+      // const newColumn = e.to.dataset.id
+      // const oldIndex = e.oldIndex
+      // const newIndex = e.newIndex
 
-      console.log('End Handler')
-      console.log('Old Column', oldColumn)
-      console.log('New Column', newColumn)
-      console.log('Old Index', oldIndex)
-      console.log('New Index', newIndex)
-      console.log(e)
+      // console.log('End Handler')
+      // console.log('Old Column', oldColumn)
+      // console.log('New Column', newColumn)
+      // console.log('Old Index', oldIndex)
+      // console.log('New Index', newIndex)
+      // console.log(e)
     }
   }
 }
