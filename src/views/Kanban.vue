@@ -87,16 +87,34 @@ export default {
       console.log(event)
       if (event.added) {
         let task = event.added.element
+        console.log(task.status)
         task.status = nameList
 
         if (nameList === 'TODO') {
           console.log('Se agrego a TODO')
-          console.log(this.tasksTodo[event.added.newIndex].title)
-          task.sort = this.tasksTodo[event.added.newIndex].sort / 2
+          const tarea = this.tasksTodo[event.added.newIndex]
+
+          console.log('task', task.title, task.status, task._id)
+          console.log('Tarea', tarea.title, tarea.status, tarea._id)
+
+          if (tarea._id !== task._id) {
+            task.sort = this.tasksTodo[event.added.newIndex].sort / 2
+          }
+
           this.$store.dispatch('updateTask', task)
         }
-        if (nameList === 'DONE') console.log('Se agrego a DOING')
-        if (nameList === 'DOING') console.log('Se agrego a DONE')
+        if (nameList === 'DOING') {
+          console.log('Se agrego a DOING')
+          const tarea = this.tasksDoing[event.added.newIndex]
+
+          console.log('task', task.title, task.status, task._id)
+          console.log('Tarea', tarea.title, tarea.status, tarea._id)
+
+          if (tarea._id !== task._id) {
+            task.sort = this.tasksDoing[event.added.newIndex].sort / 2
+          }
+          this.$store.dispatch('updateTask', task)
+        }
       }
     },
     showModal () {
@@ -105,7 +123,6 @@ export default {
     taskConfirm (task) {
       this.isModalActive = false
       this.$store.dispatch('createTask', task)
-      // console.log(task)
     },
     taskCancel () {
       this.isModalActive = false
