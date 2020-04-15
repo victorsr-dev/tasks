@@ -205,10 +205,18 @@ export default new Vuex.Store({
   },
   getters: {
     projects: state => state.projects,
-    tasks: state => state.tasks,
-    tasksTodo: state => state.tasks.filter(t => t.status === 'TODO').sort((a, b) => a.sort - b.sort),
-    tasksDoing: state => state.tasks.filter(t => t.status === 'DOING').sort((a, b) => a.sort - b.sort),
-    tasksDone: state => state.tasks.filter(t => t.status === 'DONE').sort((a, b) => a.sort - b.sort),
+    tasks: state => {
+      return [{
+        title: 'TODO',
+        tasks: state.tasks.filter(t => t.status === 'TODO').sort((a, b) => a.sort - b.sort)
+      }, {
+        title: 'DOING',
+        tasks: state.tasks.filter(t => t.status === 'DOING').sort((a, b) => a.sort - b.sort)
+      }, {
+        title: 'DONE',
+        tasks: state.tasks.filter(t => t.status === 'DONE').sort((a, b) => a.sort - b.sort)
+      }]
+    },
     user: state => state.user,
     isLoggedIn: state => !!state.token,
     tasksNumber: state => state.tasks.length,
@@ -222,4 +230,5 @@ function handleErrorRequest (err) {
   if (err.status === 401) {
     router.push({ name: 'Login' })
   }
+  console.log(err)
 }

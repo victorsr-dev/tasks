@@ -6,32 +6,18 @@
     <section class="section is-main-section">
       <div class="level-item">
         <div class="columns is-multiline is-centered cards-container" id="sectioncontainer">
-          <!--Todo List -->
-          <div class="column is-narrow">
+          <div
+            class="column is-narrow"
+            v-for="column in tasks"
+            :key="column.title">
             <article class="message">
               <div class="message-header">
-                <p>To do</p>
-                <button class="button" @click.prevent="showModal()" > Add Task</button>
+                <p>{{column.title}}</p>
               </div>
-              <list-tasks :list-task="tasksTodo" nameList="TODO" @change="change"/>
-            </article>
-          </div>
-          <!--Doing List -->
-          <div class="column is-narrow">
-            <article class="message is-info">
-              <div class="message-header">
-                <p>Doing</p>
-              </div>
-              <list-tasks :list-task="tasksDoing" nameList="DOING" @change="change"/>
-            </article>
-          </div>
-          <!--Done List -->
-          <div class="column is-narrow">
-            <article class="message is-success">
-              <div class="message-header">
-                <p>Done</p>
-              </div>
-              <list-tasks :list-task="tasksDone" nameList="DONE" @change="change"/>
+              <list-tasks
+                :list-task="column.tasks"
+                :nameList="column.title"
+                @change="change"/>
             </article>
           </div>
         </div>
@@ -57,12 +43,12 @@ export default {
   data () {
     return {
       isModalActive: false,
-      doneList: [],
-      doingList: []
+      doingList: [],
+      doneList: []
     }
   },
   computed: {
-    ...mapGetters(['tasksTodo', 'tasksDoing', 'tasksDone', 'projectsNumber', 'tasks']),
+    ...mapGetters(['projectsNumber', 'tasks']),
     titleStack () {
       return [
         'Admin',
@@ -75,47 +61,22 @@ export default {
       message: 'Welcome back',
       queue: false
     })
-
     this.$store.dispatch('getTasks')
     this.$store.dispatch('getProjects')
   },
   methods: {
-    change: function (nameList, event) {
-      this.updateTaskAdded(nameList, event)
+    change: function (nameList) {
+      this.tasks.forEach(element => {
+        let nameColumn = element.title
+        element.tasks.forEach((t, i) => {
+          t.status = nameColumn
+          t.sort = i + 1
+          this.$store.dispatch('updateTask', t)
+        })
+      })
     },
     updateTaskAdded (nameList, event) {
       console.log(event)
-      if (event.added) {
-        let task = event.added.element
-        console.log(task.status)
-        task.status = nameList
-
-        if (nameList === 'TODO') {
-          console.log('Se agrego a TODO')
-          const tarea = this.tasksTodo[event.added.newIndex]
-
-          console.log('task', task.title, task.status, task._id)
-          console.log('Tarea', tarea.title, tarea.status, tarea._id)
-
-          if (tarea._id !== task._id) {
-            task.sort = this.tasksTodo[event.added.newIndex].sort / 2
-          }
-
-          this.$store.dispatch('updateTask', task)
-        }
-        if (nameList === 'DOING') {
-          console.log('Se agrego a DOING')
-          const tarea = this.tasksDoing[event.added.newIndex]
-
-          console.log('task', task.title, task.status, task._id)
-          console.log('Tarea', tarea.title, tarea.status, tarea._id)
-
-          if (tarea._id !== task._id) {
-            task.sort = this.tasksDoing[event.added.newIndex].sort / 2
-          }
-          this.$store.dispatch('updateTask', task)
-        }
-      }
     },
     showModal () {
       this.isModalActive = true
