@@ -68,6 +68,8 @@ export default {
           text: `${err.data.error}`
         })
       })
+
+      this.user = {}
     }
   }
 }
