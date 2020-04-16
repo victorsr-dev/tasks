@@ -18,9 +18,18 @@
               </p>
             </header>
             <div class="card-content">
+              <p class="subtitle">{{element.project.name}}</p>
               <div class="content">
                 {{element.description}}
               </div>
+              <div class="field is-grouped is-grouped-multiline">
+                <div class="control">
+                  <div class="tags has-addons">
+                    <span class="tag is-success"><strong>Priority</strong></span>
+                    <span class="tag" :class="[element.priority < 3 ? 'is-danger': 'is-info' ]">{{element.priority}}</span>
+                  </div>
+                </div>
+            </div>
             </div>
           </div>
         </div>
@@ -48,10 +57,16 @@ export default {
 }
 </script>
 <style scoped>
+.subtitle{
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
 .card-header-title{
   cursor: pointer;
   padding: 0.3rem;
 }
+
 .card-content {
   padding: 0.5rem;
 }

@@ -77,6 +77,8 @@ export default {
         user: this.user._id,
         project: this.projectSelected._id
       }
+
+      this.task = {}
       this.$emit('confirm', newTask)
     }
   },

@@ -13,6 +13,11 @@
             <article class="message">
               <div class="message-header">
                 <p>{{column.title}}</p>
+                <button v-if="column.title === 'TODO'" class="button is-rounded" @click="showModal">
+                  <span class="icon is-small">
+                    <font-awesome-icon icon="plus"/>
+                  </span>
+                </button>
               </div>
               <list-tasks
                 :list-task="column.tasks"
@@ -42,9 +47,7 @@ export default {
   },
   data () {
     return {
-      isModalActive: false,
-      doingList: [],
-      doneList: []
+      isModalActive: false
     }
   },
   computed: {
@@ -74,9 +77,6 @@ export default {
           this.$store.dispatch('updateTask', t)
         })
       })
-    },
-    updateTaskAdded (nameList, event) {
-      console.log(event)
     },
     showModal () {
       this.isModalActive = true
