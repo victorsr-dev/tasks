@@ -230,5 +230,4 @@ function handleErrorRequest (err) {
   if (err.status === 401) {
     router.push({ name: 'Login' })
   }
-  console.log(err)
 }
