@@ -23,7 +23,7 @@
                 {{element.description}}
               </div>
               <div class="buttons">
-                <b-button type="is-danger" icon-right="delete"></b-button>
+                <b-button type="is-danger" icon-right="delete" @click="eraser(element)"></b-button>
                 <b-button type="is-info" icon-right="pencil" @click="edit(element)"></b-button>
               </div>
               <div class="tags has-addons">
@@ -55,6 +55,9 @@ export default {
     },
     edit: function (element) {
       this.$emit('editTask', element)
+    },
+    eraser (element) {
+      this.$emit('deleteTask', element)
     }
   }
 }

@@ -5,7 +5,7 @@
         <p class="modal-card-title">Confirm action</p>
       </header>
       <section class="modal-card-body">
-        <p>This will permanently delete <b>{{ trashObjectName }}</b></p>
+        <p>This will permanently delete <b>{{ trashObjectName.title }}</b></p>
         <p>Action can not be undone.</p>
       </section>
       <footer class="modal-card-foot">
@@ -25,7 +25,7 @@ export default {
       default: false
     },
     trashObjectName: {
-      type: String,
+      type: Object,
       default: null
     }
   },

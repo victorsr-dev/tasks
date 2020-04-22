@@ -1,7 +1,9 @@
 <template>
   <div>
-     <modal-create-task :taskUpdate="taskUpdate" :is-active="isModalActive" @confirm="taskConfirm"
+    <modal-create-task :taskUpdate="taskUpdate" :is-active="isModalActive" @confirm="taskConfirm"
                @cancel="taskCancel"/>
+    <modal-box :is-active="isModalTrashActive" :trash-object-name="trashObject" @confirm="trashConfirm"
+               @cancel="trashCancel"/>
     <header-bar title="Kanban" :title-stack="titleStack" />
     <section class="section is-main-section">
       <div class="level-item">
@@ -23,7 +25,8 @@
                 :list-task="column.tasks"
                 :nameList="column.title"
                 @change="change"
-                @editTask="editTask"/>
+                @editTask="editTask"
+                @deleteTask="deleteTask"/>
             </article>
           </div>
         </div>
@@ -38,17 +41,21 @@ import { mapGetters } from 'vuex'
 import HeaderBar from '@/components/HeaderBar'
 import ModalCreateTask from '@/components/ModalCreateTask'
 import ListTasks from '@/components/ListTasks'
+import ModalBox from '@/components/ModalBox'
 
 export default {
   name: 'Main',
   components: {
     HeaderBar,
     ModalCreateTask,
-    ListTasks
+    ListTasks,
+    ModalBox
   },
   data () {
     return {
       isModalActive: false,
+      isModalTrashActive: false,
+      trashObject: {},
       taskUpdate: {}
     }
   },
@@ -84,8 +91,21 @@ export default {
       this.taskUpdate = element
       this.showModal()
     },
+    deleteTask: function (element) {
+      this.trashObject = element
+      this.isModalTrashActive = true
+    },
     showModal () {
       this.isModalActive = true
+    },
+    trashConfirm () {
+      this.isModalTrashActive = false
+      this.$store.dispatch('deleteTask', this.trashObject)
+      this.trashObject = {}
+    },
+    trashCancel () {
+      this.isModalTrashActive = false
+      this.trashObject = {}
     },
     taskConfirm (task) {
       this.isModalActive = false
