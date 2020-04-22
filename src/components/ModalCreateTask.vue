@@ -100,7 +100,9 @@ export default {
     },
     taskUpdate (newValue) {
       this.task = newValue
-      this.projectSelected = this.projects.find(p => p._id === newValue.project._id)
+      if (newValue.project) {
+        this.projectSelected = this.projects.find(p => p._id === newValue.project._id)
+      }
     }
   }
 }

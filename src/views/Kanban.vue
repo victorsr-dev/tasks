@@ -89,7 +89,12 @@ export default {
     },
     taskConfirm (task) {
       this.isModalActive = false
-      this.$store.dispatch('createTask', task)
+      if (this.taskUpdate) {
+        this.$store.dispatch('updateTask', task)
+      } else {
+        this.$store.dispatch('createTask', task)
+      }
+      this.taskUpdate = {}
     },
     taskCancel () {
       this.isModalActive = false
