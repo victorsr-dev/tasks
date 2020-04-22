@@ -52,6 +52,10 @@ export default {
     trashObjectName: {
       type: String,
       default: null
+    },
+    taskUpdate: {
+      type: Object,
+      default: null
     }
   },
   data () {
@@ -93,6 +97,10 @@ export default {
       if (!newValue) {
         this.cancel()
       }
+    },
+    taskUpdate (newValue) {
+      this.task = newValue
+      this.projectSelected = this.projects.find(p => p._id === newValue.project._id)
     }
   }
 }

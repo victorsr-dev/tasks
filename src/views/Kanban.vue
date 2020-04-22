@@ -1,6 +1,6 @@
 <template>
   <div>
-     <modal-create-task :is-active="isModalActive" @confirm="taskConfirm"
+     <modal-create-task :taskUpdate="taskUpdate" :is-active="isModalActive" @confirm="taskConfirm"
                @cancel="taskCancel"/>
     <header-bar title="Kanban" :title-stack="titleStack" />
     <section class="section is-main-section">
@@ -22,7 +22,8 @@
               <list-tasks
                 :list-task="column.tasks"
                 :nameList="column.title"
-                @change="change"/>
+                @change="change"
+                @editTask="editTask"/>
             </article>
           </div>
         </div>
@@ -47,7 +48,8 @@ export default {
   },
   data () {
     return {
-      isModalActive: false
+      isModalActive: false,
+      taskUpdate: {}
     }
   },
   computed: {
@@ -78,6 +80,10 @@ export default {
         })
       })
     },
+    editTask: function (element) {
+      this.taskUpdate = element
+      this.showModal()
+    },
     showModal () {
       this.isModalActive = true
     },
@@ -87,6 +93,7 @@ export default {
     },
     taskCancel () {
       this.isModalActive = false
+      this.taskUpdate = {}
     }
   }
 }

@@ -22,14 +22,14 @@
               <div class="content">
                 {{element.description}}
               </div>
-              <div class="field is-grouped is-grouped-multiline">
-                <div class="control">
-                  <div class="tags has-addons">
-                    <span class="tag is-success"><strong>Priority</strong></span>
-                    <span class="tag" :class="[element.priority < 3 ? 'is-danger': 'is-info' ]">{{element.priority}}</span>
-                  </div>
-                </div>
-            </div>
+              <div class="buttons">
+                <b-button type="is-danger" icon-right="delete"></b-button>
+                <b-button type="is-info" icon-right="pencil" @click="edit(element)"></b-button>
+              </div>
+              <div class="tags has-addons">
+                <span class="tag is-small is-success"><strong>Priority</strong></span>
+                <span class="tag is-small" :class="[element.priority < 3 ? 'is-danger': 'is-info' ]">{{element.priority}}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -52,6 +52,9 @@ export default {
   methods: {
     log: function (evt) {
       this.$emit('change', this.nameList, this.listTask)
+    },
+    edit: function (element) {
+      this.$emit('editTask', element)
     }
   }
 }
